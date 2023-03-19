@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  telex:
+    image: telex
+    build: ./telex
+    container_name: telex
+    ports:
+      - "2025:2025"
+    networks:
+      - telnet
+  gate:
+    build: ./gate
+    container_name: gate
+    ports:
+      - "2024:2024"
+    networks:
+      - telnet
+      
+  haproxy:
+    image: haproxy:latest
+    container_name: haproxy
+    volumes:
+      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+    ports:
+      - "8405:80"
+      - "8404:8404"
+    networks:
+      - telnet
+
+networks:
+  telnet:

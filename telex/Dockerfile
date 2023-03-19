@@ -1,9 +1,7 @@
-FROM eclipse-temurin:19
+FROM eclipse-temurin:19-alpine
 COPY target/telex.jar /opt/telex.jar
-RUN useradd -ms /bin/sh notSec2075 \
-    && echo "root:Docker!" | chpasswd \
-    && chown -R notSec2075 /opt/
-USER notSec2075
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+USER appuser
 ENTRYPOINT ["java", "-XX:+UseZGC", "-XX:MinHeapSize=512M", "-XX:InitialHeapSize=512M", "-XX:MaxHeapSize=1G", \
             "-XX:ParallelGCThreads=100", "-XX:ConcGCThreads=30", "--enable-preview", \
             "-XX:SoftRefLRUPolicyMSPerMB=0","-XX:ZCollectionInterval=30", "-XX:ZFragmentationLimit=10", \

@@ -25,7 +25,7 @@ spring:
   cloud:
     gateway:
       default-filters:
-        - LoggingFilter
+        - GatewayCustomFilter
 
 
 logging:

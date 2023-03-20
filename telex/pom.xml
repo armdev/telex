@@ -18,7 +18,11 @@
         <spring-cloud.version>2022.0.1</spring-cloud.version>
     </properties>
     <dependencies>
-       
+        <dependency>
+            <groupId>com.maciejwalkowiak.spring</groupId>
+            <artifactId>spring-boot-startup-report</artifactId>
+            <version>0.1.0</version>
+        </dependency>
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>

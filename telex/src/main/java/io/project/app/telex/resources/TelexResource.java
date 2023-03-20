@@ -1,7 +1,5 @@
 package io.project.app.telex.resources;
 
-
-
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.http.HttpStatus;
@@ -23,8 +21,8 @@ public class TelexResource {
 
     @GetMapping(path = "/send")
     public ResponseEntity get(@RequestParam String telex) {
-        log.info("Telex is here  " +telex);      
-        return ResponseEntity.status(HttpStatus.OK).body(telex + " done");
+        log.info("Received Telex: " + telex);
+        return ResponseEntity.status(HttpStatus.OK).body(telex + " is  received");
 
     }
 

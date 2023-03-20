@@ -30,7 +30,7 @@ public class GateApplication {
     @Bean
     @CrossOrigin
     public RouteLocator telex(RouteLocatorBuilder builder) {
-        log.warn("Request to telex");
+        log.info("Gate to Telex");
         return builder.routes()
                 .route("um_route", r -> r
                 .path("/telex/**")                 

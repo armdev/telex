@@ -15,10 +15,8 @@ import reactor.core.publisher.Mono;
 public class LoggingFilter implements GlobalFilter, Ordered {
 
     @Override
-    public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        // Log the request
-         System.out.println("!filter: runing ");
-        log.info("filter: runing ");
+    public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {      
+        log.info("LoggingFilter: runing ");
         logRequest(exchange.getRequest());
 
         return chain.filter(exchange)
@@ -30,11 +28,12 @@ public class LoggingFilter implements GlobalFilter, Ordered {
 
     private void logRequest(ServerHttpRequest request) {
         // Log the request
-        System.out.println("Request: " + request.getMethodValue() + " " + request.getURI());
+        log.info("Request: " + request.getMethodValue() + " " + request.getURI());
     }
 
     private void logResponse(ServerHttpResponse response) {
         // Log the response
+
         log.info("Response: " + response.getStatusCode() + " " + response.bufferFactory().toString());
     }
 

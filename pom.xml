@@ -9,6 +9,7 @@
        
         <module>gate</module>
         <module>telex</module>
+        <module>driver</module>
                      
     </modules>
     <properties>

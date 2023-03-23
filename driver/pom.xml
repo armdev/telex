@@ -8,16 +8,21 @@
         <version>3.0.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>io.project.app.telex</groupId>
-    <artifactId>telex</artifactId>
+    <groupId>io.project.app.driver</groupId>
+    <artifactId>driver</artifactId>
     <version>1.0</version>
-    <name>telex</name>
-    <description>telex</description>
+    <name>driver</name>
+    <description>driver</description>
     <properties>
         <java.version>19</java.version>
         <spring-cloud.version>2022.0.1</spring-cloud.version>
     </properties>
     <dependencies>
+        <dependency>
+            <groupId>com.arangodb</groupId>
+            <artifactId>arangodb-spring-data</artifactId>
+            <version>3.8.0</version>
+        </dependency>
         <dependency>
             <groupId>ch.hsr</groupId>
             <artifactId>geohash</artifactId>
@@ -83,7 +88,7 @@
     </dependencyManagement>
 
     <build>
-        <finalName>telex</finalName>
+        <finalName>driver</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

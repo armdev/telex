@@ -1,14 +1,17 @@
 version: '3'
 
-services:
-  telex:
-    image: telex
-    build: ./telex
-    container_name: telex
+services:    
+   arangodb_db_container:
+    image: arangodb:latest
+    container_name: arangodb
+    environment:
+      ARANGO_ROOT_PASSWORD: root
     ports:
-      - "2025:2025"
-    networks:
-      - telnet
+      - 8529:8529
+    volumes:
+      - ~/volumes/arangodb4/container:/var/lib/arangodb3    
+      - ~/volumes/arangodb4/data_container:/var/lib/arangodb3-apps  
+      
   gate:
     build: ./gate
     container_name: gate
@@ -16,6 +19,26 @@ services:
       - "2024:2024"
     networks:
       - telnet
+      
+  telex:
+    image: telex
+    build: ./telex
+    container_name: telex
+    ports:
+      - "2025:2025"
+    networks:
+      - telnet      
+  
+   driver:
+    image: driver
+    build: ./driver
+    container_name: telex
+    ports:
+      - "2026:2026"
+    networks:
+      - telnet
+      
+
       
   haproxy:
     image: haproxy:latest
@@ -27,6 +50,10 @@ services:
       - "8404:8404"
     networks:
       - telnet
+      
+volumes:
+  arangodb_data_container:
+  arangodb_apps_data_container:
 
 networks:
   telnet:

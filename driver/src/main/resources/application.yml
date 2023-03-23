@@ -1,0 +1,30 @@
+management:
+  endpoint:
+    health:
+      enabled: true
+      show-details: ALWAYS
+  endpoints:
+    jmx:
+      exposure:
+       include: '*'
+    web:
+     exposure:
+      include: '*'
+      base-path: /actuator
+    cors:
+      allowed-origins: 'true'
+      enabled-by-default: 'false'
+
+      
+server:
+   port: 2026
+    
+spring:    
+  application:
+    name: driver
+
+
+logging:
+    level:
+      root: INFO
+      io.project.app.driver: INFO

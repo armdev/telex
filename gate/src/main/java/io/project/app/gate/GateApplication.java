@@ -15,11 +15,9 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @Slf4j
 @ComponentScan
 public class GateApplication {
-    
-    ///http://localhost:2024/telex/api/send?telex=4545
-    
-    // HA PROXY http://localhost:8405/telex/api/send?telex=85
 
+    ///http://localhost:2024/telex/api/send?telex=4545
+    // HA PROXY http://localhost:8405/telex/api/send?telex=85
     public static void main(String[] args) {
         final SpringApplication application = new SpringApplication(GateApplication.class);
         application.setBannerMode(Banner.Mode.CONSOLE);
@@ -33,11 +31,27 @@ public class GateApplication {
         log.info("Gate to Telex");
         return builder.routes()
                 .route("um_route", r -> r
-                .path("/telex/**")                 
+                .path("/telex/**")
                 .filters(f -> f.stripPrefix(1).retry(5)
                 .addResponseHeader("Access-Control-Expose-Headers", "scope, client,Origin,Accept-Language,Accept-Encoding")
                 )
                 .uri("http://telex:2025/")
+                //.uri("lb://telex/")
+                )
+                .build();
+    }
+
+    @Bean
+    @CrossOrigin
+    public RouteLocator driver(RouteLocatorBuilder builder) {
+        log.info("Gate to driver");
+        return builder.routes()
+                .route("um_route", r -> r
+                .path("/driver/**")
+                .filters(f -> f.stripPrefix(1).retry(5)
+                .addResponseHeader("Access-Control-Expose-Headers", "scope, client,Origin,Accept-Language,Accept-Encoding")
+                )
+                .uri("http://driver:2026/")
                 //.uri("lb://telex/")
                 )
                 .build();

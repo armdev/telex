@@ -1,22 +1,31 @@
 version: '3'
-
-services:    
-   arangodb_db_container:
-    image: arangodb:latest
-    container_name: arangodb
-    environment:
-      ARANGO_ROOT_PASSWORD: root
-    ports:
-      - 8529:8529
+services:
+    
+  mongonode:      
+    build: ./mongodb
+    env_file: .env
+    image: mongonode
+    container_name: mongonode    
     volumes:
-      - ~/volumes/arangodb4/container:/var/lib/arangodb3    
-      - ~/volumes/arangodb4/data_container:/var/lib/arangodb3-apps  
+      - ~/volumes/dapp/mongo/data:/data/db
+      - ~/volumes/dapp/mongo/logs:/data/logs
+    ports:
+      - 27017:27017
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+    command: mongod
+    networks:
+      telnet:
+        aliases:
+          - mongodb 
       
   gate:
     build: ./gate
     container_name: gate
     ports:
-      - "2024:2024"
+      - '2024:2024'
     networks:
       - telnet
       
@@ -25,35 +34,38 @@ services:
     build: ./telex
     container_name: telex
     ports:
-      - "2025:2025"
+      - '2025:2025'
     networks:
-      - telnet      
-  
-   driver:
+      - telnet
+      
+  driver:
     image: driver
     build: ./driver
-    container_name: telex
+    env_file: .env
+    container_name: driver
+    links:
+      - mongonode    
+    depends_on:    
+      - mongonode  
     ports:
-      - "2026:2026"
+      - '2026:2026'
     networks:
       - telnet
-      
-
       
   haproxy:
-    image: haproxy:latest
+    image: 'haproxy:latest'
     container_name: haproxy
     volumes:
-      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+      - './haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg'
     ports:
-      - "8405:80"
-      - "8404:8404"
+      - '8405:80'
+      - '8404:8404'
     networks:
       - telnet
-      
-volumes:
-  arangodb_data_container:
-  arangodb_apps_data_container:
+
 
 networks:
   telnet:
+    driver: bridge    
+    ipam:
+      driver: default

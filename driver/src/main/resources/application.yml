@@ -21,8 +21,15 @@ server:
     
 spring:    
   application:
-    name: driver
-
+    name: driver    
+    
+  data:
+    mongodb:
+     primary:
+        auto-index-creation: true
+        database: driverDB        
+        uri: mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@mongonode:27017/driverDB?connectTimeoutMS=3000&minPoolSize=0&maxPoolSize=200&maxIdleTimeMS=9000
+    
 
 logging:
     level:

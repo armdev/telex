@@ -5,10 +5,10 @@
 package io.project.app.driver.web.usecases;
 
 import io.project.app.driver.port.models.DriverViewResponse;
-import io.project.app.driver.port.repositories.DriverViewService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import io.project.app.driver.port.repositories.DriverViewRepository;
 
 /**
  * @author armena
@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 public class DriverViewUseCase {
 
     @Autowired
-    private DriverViewService driverViewService;
+    private DriverViewRepository driverViewService;
 
     public DriverViewResponse findDriver(String id) {
         return driverViewService.findDriver(id);

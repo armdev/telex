@@ -7,7 +7,7 @@ package io.project.app.driver.port.repositories;
 import io.project.app.driver.port.models.DriverViewResponse;
 
 
-public interface DriverViewService {
+public interface DriverViewRepository {
     
     DriverViewResponse findDriver(String id);
 

@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
  * @author armena
  */
 @Repository
-public interface DriverArangoRepository extends MongoRepository<Driver, String> {
+public interface DriverMongoRepository extends MongoRepository<Driver, String> {
 
 }

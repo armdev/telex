@@ -5,9 +5,9 @@
 package io.project.app.driver.adapter.services;
 
 import io.project.app.driver.port.models.DriverViewResponse;
-import io.project.app.driver.port.repositories.DriverViewService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import io.project.app.driver.port.repositories.DriverViewRepository;
 
 /**
  *
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Slf4j
-public class DriverCreationService implements DriverViewService{
+public class DriverCreationService implements DriverViewRepository{
 
     @Override
     public DriverViewResponse findDriver(String id) {

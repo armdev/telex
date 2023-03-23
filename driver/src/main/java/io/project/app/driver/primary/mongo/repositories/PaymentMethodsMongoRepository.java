@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
  * @author armena
  */
 @Repository
-public interface PaymentMethodsRepository extends MongoRepository<PaymentMethods, String> {
+public interface PaymentMethodsMongoRepository extends MongoRepository<PaymentMethods, String> {
 
 }

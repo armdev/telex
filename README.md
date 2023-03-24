@@ -13,20 +13,28 @@ chown 999:999 /data/mongodb-keyfile
 ./db_start.sh
 
 setup cluster
-
+#
 docker exec -ti mongo1 bash
+#
 mongosh -u uber -p uber123 --authenticationDatabase admin
+#
 use admin
+#
 rs.initiate()
+#
 conf = rs.conf();
+#
 rs.add("mongo2");
+#
 rs.add("mongo3");
+#
 rs.reconfig(conf);
+#
 rs.status()
-
+#
 
 ./run.sh
-
+#
 
 # HAProxy stats
 

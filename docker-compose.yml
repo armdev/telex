@@ -1,33 +1,13 @@
 version: '3'
-services:
-    
-  mongonode:      
-    build: ./mongodb
-    env_file: .env
-    image: mongonode
-    container_name: mongonode    
-    volumes:
-      - ~/volumes/dapp/mongo/data:/data/db
-      - ~/volumes/dapp/mongo/logs:/data/logs
-    ports:
-      - 27017:27017
-    restart: always
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
-      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
-    command: mongod
-    networks:
-      telnet:
-        aliases:
-          - mongodb 
-      
+services:     
+  
   gate:
     build: ./gate
     container_name: gate
     ports:
       - '2024:2024'
     networks:
-      - telnet
+      - telex_mongo-net
       
   telex:
     image: telex
@@ -36,36 +16,32 @@ services:
     ports:
       - '2025:2025'
     networks:
-      - telnet
-      
+      - telex_mongo-net
+
   driver:
     image: driver
     build: ./driver
-    env_file: .env
-    container_name: driver
-    links:
-      - mongonode    
-    depends_on:    
-      - mongonode  
+    env_file: .env    
+    container_name: driver  
     ports:
-      - '2026:2026'
+      - '2026:2026'      
     networks:
-      - telnet
+      - telex_mongo-net
+
       
   haproxy:
     image: 'haproxy:latest'
     container_name: haproxy
     volumes:
       - './haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg'
+    networks:
+      - telex_mongo-net
     ports:
       - '8405:80'
       - '8404:8404'
-    networks:
-      - telnet
 
 
 networks:
-  telnet:
-    driver: bridge    
-    ipam:
-      driver: default
+  telex_mongo-net:
+    name: telex_mongo-net
+    external: true

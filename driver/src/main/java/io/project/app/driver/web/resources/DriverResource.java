@@ -1,6 +1,6 @@
 package io.project.app.driver.web.resources;
 
-
+import io.project.app.driver.port.models.DriverCreationRequest;
 import io.project.app.driver.port.models.DriverViewResponse;
 import io.project.app.driver.web.usecases.DriverViewUseCase;
 
@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,6 +37,14 @@ public class DriverResource {
         DriverViewResponse findDriver = driverViewUseCase.findDriver(id);
 
         return ResponseEntity.status(HttpStatus.OK).body(findDriver);
+    }
+
+    @PostMapping("/driver/create")
+    public ResponseEntity create(@RequestBody DriverCreationRequest driverCreationRequest) {
+
+        DriverViewResponse driverViewResponse = driverViewUseCase.create(driverCreationRequest);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(driverViewResponse);
     }
 
 }

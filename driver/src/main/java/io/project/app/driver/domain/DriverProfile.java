@@ -4,7 +4,6 @@
  */
 package io.project.app.driver.domain;
 
-
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -21,9 +20,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DriverProfile implements Serializable {
 
+    private String firstname;
+    private String lastname;
     private String comment;
     private LocalDate hireDate;
- 
-    
 
 }

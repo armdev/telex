@@ -17,19 +17,39 @@ management:
 
       
 server:
-   port: 2026
+  http2:
+    enabled: true
+  port: 2026
+  servlet:
+    session:
+      timeout: 10m
+  undertow:
+    buffer-size: 40960
+    no-request-timeout: 5000
+  compression:
+    enabled: true
+    mime-types: >-
+      text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
+    min-response-size: 1024
     
 spring:    
   application:
-    name: driver    
-    
+    name: driver
+
   data:
     mongodb:
-     primary:
-        auto-index-creation: true
-        database: driverDB        
-        uri: mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@mongonode:27017/driverDB?connectTimeoutMS=3000&minPoolSize=0&maxPoolSize=200&maxIdleTimeMS=9000
-    
+      database: driverDB
+      username: ${MONGO_INITDB_ROOT_USERNAME}
+      password: ${MONGO_INITDB_ROOT_PASSWORD}
+      authentication-database: admin
+      primary:
+         auto-index-creation: true
+         database: driverDB
+         uri: mongodb://uber:uber123@mongo1:27017/driverDB?replicaSet=rs0&readPreference=primaryPreferred&authSource=admin     
+
+   
+   # mongodb://uber:uber123@localhost:27017/driverDB?readPreference=primaryPreferred&authSource=admin
+
 
 logging:
     level:

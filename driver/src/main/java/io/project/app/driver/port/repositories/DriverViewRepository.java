@@ -4,12 +4,13 @@
  */
 package io.project.app.driver.port.repositories;
 
+import io.project.app.driver.port.models.DriverCreationRequest;
 import io.project.app.driver.port.models.DriverViewResponse;
 
-
 public interface DriverViewRepository {
-    
+
     DriverViewResponse findDriver(String id);
 
+    DriverViewResponse create(DriverCreationRequest driverCreationRequest);
 
 }

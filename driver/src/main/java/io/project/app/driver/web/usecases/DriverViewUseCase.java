@@ -4,6 +4,7 @@
  */
 package io.project.app.driver.web.usecases;
 
+import io.project.app.driver.port.models.DriverCreationRequest;
 import io.project.app.driver.port.models.DriverViewResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,10 @@ public class DriverViewUseCase {
 
     public DriverViewResponse findDriver(String id) {
         return driverViewService.findDriver(id);
+    }
+
+    public DriverViewResponse create(DriverCreationRequest driverCreationRequest) {
+        return driverViewService.create(driverCreationRequest);
     }
 
 }

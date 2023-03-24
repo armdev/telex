@@ -1,0 +1,100 @@
+version: '3'
+services:
+  mongo1:
+    image: mongo:6
+    #build: ./mongo
+    restart: always
+    container_name: mongo1
+    healthcheck:
+      test: ["CMD", "mongo", "--eval", "db.runCommand({ ping: 1 })"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=uber
+      - MONGO_INITDB_ROOT_PASSWORD=uber123
+      - MONGO_INITDB_DATABASE=test
+      - MONGO_REPLICA_SET_NAME=rs0
+    entrypoint:
+            - bash
+            - -c
+            - |
+                chmod 400 /data/mongodb-keyfile
+                chown 999:999 /data/mongodb-keyfile
+                exec docker-entrypoint.sh $$@ 
+    volumes:
+      - mongo1-data:/data/db
+      - ./mongo/mongodb-keyfile:/data/mongodb-keyfile:ro
+    command: mongod --replSet rs0 --auth --keyFile /data/mongodb-keyfile --bind_ip_all
+    networks:
+      - mongo-net
+  mongo2:
+    image: mongo:6
+    #build: ./mongo
+    restart: always
+    container_name: mongo2
+    healthcheck:
+      test: ["CMD", "mongo", "--eval", "db.runCommand({ ping: 1 })"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    ports:
+      - "27018:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=uber
+      - MONGO_INITDB_ROOT_PASSWORD=uber123
+      - MONGO_INITDB_DATABASE=test
+      - MONGO_REPLICA_SET_NAME=rs0
+    entrypoint:
+            - bash
+            - -c
+            - |
+                chmod 400 /data/mongodb-keyfile
+                chown 999:999 /data/mongodb-keyfile
+                exec docker-entrypoint.sh $$@ 
+    volumes:
+      - mongo2-data:/data/db
+      - ./mongo/mongodb-keyfile:/data/mongodb-keyfile:ro
+    command: mongod --replSet rs0 --auth --keyFile /data/mongodb-keyfile --bind_ip_all
+    networks:
+      - mongo-net
+  mongo3:
+    image: mongo:6
+    #build: ./mongo
+    container_name: mongo3
+    healthcheck:
+      test: ["CMD", "mongo", "--eval", "db.runCommand({ ping: 1 })"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    restart: always
+    ports:
+      - "27019:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=uber
+      - MONGO_INITDB_ROOT_PASSWORD=uber123
+      - MONGO_INITDB_DATABASE=test
+      - MONGO_REPLICA_SET_NAME=rs0
+    entrypoint:
+            - bash
+            - -c
+            - |
+                chmod 400 /data/mongodb-keyfile
+                chown 999:999 /data/mongodb-keyfile
+                exec docker-entrypoint.sh $$@ 
+    volumes:
+      - mongo3-data:/data/db
+      - ./mongo/mongodb-keyfile:/data/mongodb-keyfile:ro
+    command: mongod --replSet rs0 --auth --keyFile /data/mongodb-keyfile --bind_ip_all
+    networks:
+      - mongo-net
+
+volumes:
+  mongo1-data:
+  mongo2-data:
+  mongo3-data:
+      
+networks:
+  mongo-net:

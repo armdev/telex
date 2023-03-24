@@ -7,8 +7,8 @@ Create a key file using the following command:
 
 openssl rand -base64 756 > mongodb-keyfile
 
-chmod 400 mongodb-keyfile
-chown 999:999 /data/mongodb-keyfile
+chmod 400 ./mongo/mongodb-keyfile
+chown 999:999 ./mongo/mongodb-keyfile
 
 ./db_start.sh
 

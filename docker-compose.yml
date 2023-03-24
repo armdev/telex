@@ -7,7 +7,7 @@ services:
     ports:
       - '2024:2024'
     networks:
-      - telex_mongo-net
+      - telex_mongo-network
       
   telex:
     image: telex
@@ -16,7 +16,7 @@ services:
     ports:
       - '2025:2025'
     networks:
-      - telex_mongo-net
+      - telex_mongo-network
 
   driver:
     image: driver
@@ -26,7 +26,7 @@ services:
     ports:
       - '2026:2026'      
     networks:
-      - telex_mongo-net
+      - telex_mongo-network
 
       
   haproxy:
@@ -35,13 +35,13 @@ services:
     volumes:
       - './haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg'
     networks:
-      - telex_mongo-net
+      - telex_mongo-network
     ports:
       - '8405:80'
       - '8404:8404'
 
 
 networks:
-  telex_mongo-net:
-    name: telex_mongo-net
+  telex_mongo-network:
+    name: telex_mongo-network
     external: true

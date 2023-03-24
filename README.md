@@ -2,36 +2,9 @@
 An international system of telegraphy with printed messages transmitted and received by teleprinters using the public telecommunications network.
 
 
-# Mongo DB key file generation
-Create a key file using the following command:
+./run_cluster.sh (once) 
 
-openssl rand -base64 756 > ./mongo/mongodb-keyfile
-
-chmod 400 ./mongo/mongodb-keyfile
-chown 999:999 ./mongo/mongodb-keyfile
-
-./db_start.sh
-
-setup cluster
-#
-docker exec -ti mongo1 bash
-#
-mongosh -u uber -p uber123 --authenticationDatabase admin
-#
-use admin
-#
-rs.initiate()
-#
-conf = rs.conf();
-#
-rs.add("mongo2");
-#
-rs.add("mongo3");
-#
-rs.reconfig(conf);
-#
-rs.status()
-#
+./run_mongo.sh
 
 ./run.sh
 #
@@ -73,3 +46,34 @@ http://localhost:2025/startup-report
 
 
 
+
+# Mongo DB key file generation, for mongo-compose-6 only, (not used)
+Create a key file using the following command:
+
+openssl rand -base64 756 > ./mongo/mongodb-keyfile
+
+chmod 400 ./mongo/mongodb-keyfile
+chown 999:999 ./mongo/mongodb-keyfile
+
+./db_start.sh
+
+setup cluster
+#
+docker exec -ti mongo1 bash
+#
+mongosh -u uber -p uber123 --authenticationDatabase admin
+#
+use admin
+#
+rs.initiate()
+#
+conf = rs.conf();
+#
+rs.add("mongo2");
+#
+rs.add("mongo3");
+#
+rs.reconfig(conf);
+#
+rs.status()
+#

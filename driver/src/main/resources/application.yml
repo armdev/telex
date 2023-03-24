@@ -45,7 +45,7 @@ spring:
       primary:
          auto-index-creation: true
          database: driverDB
-         uri: mongodb://uber:uber123@mongo1:27017/driverDB?replicaSet=rs0&readPreference=primaryPreferred&authSource=admin     
+         uri: mongodb://uber:uber123@mongo1:27017/driverDB?replicaSet=dbrs&readPreference=primaryPreferred&authSource=admin     
 
    
    # mongodb://uber:uber123@localhost:27017/driverDB?readPreference=primaryPreferred&authSource=admin

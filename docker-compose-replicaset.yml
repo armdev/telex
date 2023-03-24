@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  mongo1:
+    container_name: mongo1
+    image: mongo:4.4
+    volumes:
+      - ~/volumes/mongocluster/data_replica1:/data/db
+      - ./scripts/rs-init.sh:/scripts/rs-init.sh
+      - ./scripts/init.js:/scripts/init.js
+    networks:
+      - mongo-network
+    ports:
+      - 27017:27017
+    deploy:
+      resources:
+        limits:
+          cpus: '8'
+          memory: 8G
+    depends_on:
+      - mongo2
+      - mongo3
+    links:
+      - mongo2
+      - mongo3
+    restart: always
+    command: --setParameter internalQueryMaxBlockingSortMemoryUsageBytes=601514320
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "dbrs", "-wiredTigerCacheSizeGB=16" ]
+
+  mongo2:
+    container_name: mongo2
+    image: mongo:4.4
+    volumes:
+      - ~/volumes/mongocluster/data_replica2:/data/db  
+    networks:
+      - mongo-network
+    ports:
+      - 27018:27017
+    restart: always
+    command: --setParameter internalQueryMaxBlockingSortMemoryUsageBytes=601514320
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "dbrs", "-wiredTigerCacheSizeGB=16" ]
+    
+  mongo3:
+    container_name: mongo3
+    image: mongo:4.4
+    volumes:
+      - ~/volumes/mongocluster/data_replica3:/data/db  
+    networks:
+      - mongo-network
+    ports:
+      - 27019:27017
+    restart: always
+    command: --setParameter internalQueryMaxBlockingSortMemoryUsageBytes=601514320
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "dbrs", "-wiredTigerCacheSizeGB=16" ]
+  
+
+networks:
+  mongo-network:
+    driver: bridge

@@ -1,7 +1,7 @@
 version: '3'
 services:
   mongo1:
-    image: mongo:6
+    image: mongo:latest
     #build: ./mongo
     restart: always
     container_name: mongo1
@@ -17,13 +17,7 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=uber123
       - MONGO_INITDB_DATABASE=test
       - MONGO_REPLICA_SET_NAME=rs0
-    entrypoint:
-            - bash
-            - -c
-            - |
-                chmod 400 /data/mongodb-keyfile
-                chown 999:999 /data/mongodb-keyfile
-                exec docker-entrypoint.sh $$@ 
+    
     volumes:
       - mongo1-data:/data/db
       - ./mongo/mongodb-keyfile:/data/mongodb-keyfile:ro
@@ -31,7 +25,7 @@ services:
     networks:
       - mongo-net
   mongo2:
-    image: mongo:6
+    image: mongo:latest
     #build: ./mongo
     restart: always
     container_name: mongo2
@@ -47,13 +41,7 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=uber123
       - MONGO_INITDB_DATABASE=test
       - MONGO_REPLICA_SET_NAME=rs0
-    entrypoint:
-            - bash
-            - -c
-            - |
-                chmod 400 /data/mongodb-keyfile
-                chown 999:999 /data/mongodb-keyfile
-                exec docker-entrypoint.sh $$@ 
+
     volumes:
       - mongo2-data:/data/db
       - ./mongo/mongodb-keyfile:/data/mongodb-keyfile:ro
@@ -61,7 +49,7 @@ services:
     networks:
       - mongo-net
   mongo3:
-    image: mongo:6
+    image: mongo:latest
     #build: ./mongo
     container_name: mongo3
     healthcheck:
@@ -77,13 +65,7 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=uber123
       - MONGO_INITDB_DATABASE=test
       - MONGO_REPLICA_SET_NAME=rs0
-    entrypoint:
-            - bash
-            - -c
-            - |
-                chmod 400 /data/mongodb-keyfile
-                chown 999:999 /data/mongodb-keyfile
-                exec docker-entrypoint.sh $$@ 
+
     volumes:
       - mongo3-data:/data/db
       - ./mongo/mongodb-keyfile:/data/mongodb-keyfile:ro

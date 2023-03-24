@@ -5,7 +5,7 @@ An international system of telegraphy with printed messages transmitted and rece
 # Mongo DB key file generation
 Create a key file using the following command:
 
-openssl rand -base64 756 > mongodb-keyfile
+openssl rand -base64 756 > ./mongo/mongodb-keyfile
 
 chmod 400 ./mongo/mongodb-keyfile
 chown 999:999 ./mongo/mongodb-keyfile

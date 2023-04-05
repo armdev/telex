@@ -42,7 +42,7 @@ public class GeohashResource {
         return geo.contains(point);
     }
 
-    @GetMapping("/location")
+    @GetMapping("/location/by/geohash")
     public ResponseEntity getLocation(@RequestParam("geohash") String geohash) {
         GeoHash geo = GeoHash.fromGeohashString(geohash);
         double latitude = geo.getBoundingBox().getCenter().getLatitude();

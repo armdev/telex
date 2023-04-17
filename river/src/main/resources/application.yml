@@ -1,0 +1,48 @@
+management:
+  endpoint:
+    health:
+      enabled: true
+      show-details: ALWAYS
+  endpoints:
+    jmx:
+      exposure:
+       include: '*'
+    web:
+     exposure:
+      include: '*'
+      base-path: /actuator
+    cors:
+      allowed-origins: 'true'
+      enabled-by-default: 'false'
+
+      
+server:
+  http2:
+    enabled: true
+  port: 2027
+  servlet:
+    session:
+      timeout: 10m
+  undertow:
+    buffer-size: 40960
+    no-request-timeout: 5000
+  compression:
+    enabled: true
+    mime-types: >-
+      text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
+    min-response-size: 1024
+    
+spring:    
+  application:
+    name: driver
+    
+  data:
+    mongodb:  
+      auto-index-creation: true    
+      uri: mongodb://uber:uber123@mongo1:27017/riverDB?replicaSet=dbrs&readPreference=primaryPreferred&authSource=admin  
+
+
+logging:
+    level:
+      root: INFO
+      io.project.app.river: INFO

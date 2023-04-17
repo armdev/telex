@@ -57,4 +57,20 @@ public class GateApplication {
                 .build();
     }
 
+    @Bean
+    @CrossOrigin
+    public RouteLocator river(RouteLocatorBuilder builder) {
+        log.info("Gate to river");
+        return builder.routes()
+                .route("um_route", r -> r
+                .path("/river/**")
+                .filters(f -> f.stripPrefix(1).retry(5)
+                .addResponseHeader("Access-Control-Expose-Headers", "scope, client,Origin,Accept-Language,Accept-Encoding")
+                )
+                .uri("http://river:2027/")
+                //.uri("lb://telex/")
+                )
+                .build();
+    }
+
 }

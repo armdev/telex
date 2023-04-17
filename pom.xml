@@ -10,6 +10,7 @@
         <module>gate</module>
         <module>telex</module>
         <module>driver</module>
+        <module>river</module>
                      
     </modules>
     <properties>

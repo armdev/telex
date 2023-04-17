@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="gate" />
+        <module name="telex" />
+        <module name="driver" />
+        <module name="grpcserver" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="driver" options="-parameters" />
+      <module name="gate" options="-parameters" />
+      <module name="grpcserver" options="-parameters" />
+      <module name="telex" options="-parameters" />
+    </option>
+  </component>
+  <component name="TypeScriptCompiler">
+    <option name="recompileOnChanges" value="true" />
+    <option name="typeScriptCompilerParams" value="--sourceMap true" />
+    <option name="useConfig" value="true" />
+  </component>
+</project>

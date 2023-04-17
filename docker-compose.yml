@@ -27,6 +27,17 @@ services:
       - '2026:2026'      
     networks:
       - telex_mongo-network
+      
+  river:
+    image: river
+    build: ./river
+    env_file: .env    
+    container_name: river  
+    ports:
+      - '2027:2027'      
+    networks:
+      - telex_mongo-network
+
 
       
   haproxy:

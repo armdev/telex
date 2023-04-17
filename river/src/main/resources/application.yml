@@ -38,7 +38,8 @@ spring:
     
   data:
     mongodb:  
-      auto-index-creation: true    
+      auto-index-creation: true
+      database: riverDB
       uri: mongodb://uber:uber123@mongo1:27017/riverDB?replicaSet=dbrs&readPreference=primaryPreferred&authSource=admin  
 
 

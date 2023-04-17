@@ -3,6 +3,7 @@ package io.project.app.river.resources;
 import io.project.app.river.domains.Notification;
 import io.project.app.river.repositories.NotificationRepository;
 import java.time.Duration;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,6 +20,7 @@ import reactor.core.publisher.Flux;
  */
 @RestController
 @RequestMapping("/api/v2")
+@Slf4j
 public class NotificationController {
 
     private final NotificationRepository repository;
@@ -53,12 +55,18 @@ public class NotificationController {
         response.setStatusCode(HttpStatus.OK);
         response.getHeaders().setContentType(MediaType.TEXT_EVENT_STREAM);
         return Flux.interval(Duration.ofSeconds(1))
-                .flatMap(i -> repository.findByTop10ByStatusAndReceiverId("UNREAD", receiverId))
+                .flatMap(i -> repository.findTop10ByStatusAndReceiverId("UNREAD", receiverId))
                 .flatMap(notification -> {
                     notification.setStatus("READ");
                     return repository.save(notification).thenReturn(notification);
                 })
-                .take(Duration.ofMinutes(10))//timeout
+                .take(Duration.ofMinutes(3))//timeout
+                .doOnCancel(() -> {
+                    log.error("Subscription canceled by user " + receiverId);
+                })
+                .doOnComplete(() -> {
+                    log.info("Subscription completed by user " + receiverId);
+                })
                 .repeat();
     }
 

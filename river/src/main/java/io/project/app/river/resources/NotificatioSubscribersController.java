@@ -68,7 +68,7 @@ public class NotificatioSubscribersController {
         subscriberCount.compute(receiverId, (key, value) -> value == null ? 1 : value + 1);
         response.getHeaders().add("X-Subscriber-Count", Integer.toString(subscriberCount.get(receiverId)));
         return Flux.interval(Duration.ofSeconds(1))
-                .flatMap(i -> repository.findByTop10ByStatusAndReceiverId("UNREAD", receiverId))
+                .flatMap(i -> repository.findTop10ByStatusAndReceiverId("UNREAD", receiverId))
                 .flatMap(notification -> {
                     notification.setStatus("READ");
                     return repository.save(notification).thenReturn(notification);

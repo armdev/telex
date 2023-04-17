@@ -10,6 +10,6 @@ import reactor.core.publisher.Flux;
 @Repository
 public interface NotificationRepository extends ReactiveMongoRepository<Notification, String> {
 
-    Flux<Notification> findByTop10ByStatusAndReceiverId(String status, Long receiverId);
+    Flux<Notification> findTop10ByStatusAndReceiverId(String status, Long receiverId);
 
 }

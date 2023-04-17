@@ -1,79 +1,50 @@
-# telex
-An international system of telegraphy with printed messages transmitted and received by teleprinters using the public telecommunications network.
+# Telex
 
+Telex is an international system of telegraphy that allows for printed messages to be transmitted and received by teleprinters through the public telecommunications network.
 
-./run_cluster.sh (once) 
+## Installation
 
-./run_mongo.sh
+To run the Telex application, follow these steps:
 
-./run.sh
-#
+1. Run the `run_cluster.sh` script once.
+2. Run the `run_mongo.sh` script.
+3. Run the `run.sh` script.
 
-# HAProxy stats
+The application uses HAProxy for load balancing, and you can view the HAProxy stats by visiting `http://127.0.0.1:8404/`.
 
-http://127.0.0.1:8404/
+## Usage
 
-# HAProxy Request
+To send a telex message, you can use the following request:
+
 
 http://localhost:8405/telex/api/send?telex=85
 
 
-curl -X 'POST' \
-  'http://localhost:8405/telex/api/send' \
-  -H 'accept: */*' \
-  -H 'Content-Type: application/json' \
-  -d '{
-  "name": "armen",
-  "age": 45
+You can also send a telex message using `curl`:
+
+curl -X 'POST'
+'http://localhost:8405/telex/api/send'
+-H 'accept: /'
+-H 'Content-Type: application/json'
+-d '{
+"name": "armen",
+"age": 45
 }'
 
-curl -X 'GET' \
-  'http://localhost:8405/telex/api/geohash?lat=40.177200&lon=44.503490' \
-  -H 'accept: */*'
 
 
-curl -X 'GET' \
-  'http://localhost:8405/telex/api/location?geohash=szpssdn3nk' \
-  -H 'accept: */*'
+The Telex application also supports geohashing. You can retrieve the geohash for a location by making the following request:
 
-curl -X 'GET' \
-  'http://localhost:8405/telex/api/geohash/check?lat=40.177200&lon=44.503490&geohash=szpssdn3nk' \
-  -H 'accept: */*'
+http://localhost:8405/telex/api/geohash?lat=40.177200&lon=44.503490
 
 
-# Report
-http://localhost:2025/startup-report
+You can retrieve the location for a geohash by making the following request:
+
+http://localhost:8405/telex/api/location?geohash=szpssdn3nk
 
 
+You can check if a geohash corresponds to a specific location by making the following request:
 
 
-# Mongo DB key file generation, for mongo-compose-6 only, (not used)
-Create a key file using the following command:
+http://localhost:8405/telex/api/geohash/check?lat=40.177200&lon=44.503490&geohash=szpssdn3nk
 
-openssl rand -base64 756 > ./mongo/mongodb-keyfile
-
-chmod 400 ./mongo/mongodb-keyfile
-chown 999:999 ./mongo/mongodb-keyfile
-
-./db_start.sh
-
-setup cluster
-#
-docker exec -ti mongo1 bash
-#
-mongosh -u uber -p uber123 --authenticationDatabase admin
-#
-use admin
-#
-rs.initiate()
-#
-conf = rs.conf();
-#
-rs.add("mongo2");
-#
-rs.add("mongo3");
-#
-rs.reconfig(conf);
-#
-rs.status()
-#

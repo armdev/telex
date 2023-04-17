@@ -53,7 +53,7 @@ public class NotificationController {
         response.setStatusCode(HttpStatus.OK);
         response.getHeaders().setContentType(MediaType.TEXT_EVENT_STREAM);
         return Flux.interval(Duration.ofSeconds(1))
-                .flatMap(i -> repository.findByStatusAndReceiverId("UNREAD", receiverId))
+                .flatMap(i -> repository.findByTop10ByStatusAndReceiverId("UNREAD", receiverId))
                 .flatMap(notification -> {
                     notification.setStatus("READ");
                     return repository.save(notification).thenReturn(notification);

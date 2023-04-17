@@ -28,23 +28,23 @@ public class DataProducer {
         this.repository = repository;
     }
 
-    @Scheduled(fixedDelay = 5000)
-    @Transactional  
+    @Scheduled(fixedDelay = 8000)
+    @Transactional
     public void scheduleFixedDelayTask() {
         Faker faker = new Faker();
         ///log.info("Fixed delay task - " + System.currentTimeMillis() / 5000);
         Notification notification = new Notification();
         long nextLong = 0L;
-        String animal="";
+        String animal = "";
         List<Notification> notifications = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 1000; i++) {
             notification = new Notification();
             animal = faker.animal().name();
-            nextLong = new Random().nextLong(1, 10);
+            nextLong = new Random().nextLong(1, 1000);
             notification.setMessage(animal);
             notification.setStatus("UNREAD");
             notification.setReceiverId(nextLong);
-            log.info("Save " + notification.toString());
+            ///log.info("Save " + notification.toString());
             notifications.add(notification);
         }
         repository.saveAll(notifications)

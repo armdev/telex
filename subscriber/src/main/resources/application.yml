@@ -19,7 +19,7 @@ management:
 server:
   http2:
     enabled: true
-  port: 2027 
+  port: 2028
   compression:
     enabled: true
     mime-types: >-
@@ -28,16 +28,10 @@ server:
     
 spring:    
   application:
-    name: river
-    
-  data:
-    mongodb:  
-      auto-index-creation: true
-      database: riverDB
-      uri: mongodb://uber:uber123@mongo1:27017/riverDB?replicaSet=dbrs&readPreference=primaryPreferred&authSource=admin&connectTimeoutMS=10000&minPoolSize=0&maxPoolSize=100&maxIdleTimeMS=300000
+    name: subscriber
 
 
 logging:
     level:
       root: INFO
-      io.project.app.river: INFO
+      io.project.app.subscriber: INFO

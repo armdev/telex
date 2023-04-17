@@ -11,6 +11,7 @@
         <module>telex</module>
         <module>driver</module>
         <module>river</module>
+        <module>subscriber</module>
                      
     </modules>
     <properties>

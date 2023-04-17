@@ -32,7 +32,7 @@ public class Notification implements Serializable {
     
     private String message;
 
-    @Indexed(name = "ephemeralEventDate", expireAfterSeconds = 600)
-    private LocalDateTime ephemeralEventDate = LocalDateTime.now();
+    ////@Indexed(name = "ephemeralEventDate", expireAfterSeconds = 600)
+    private LocalDateTime eventDate = LocalDateTime.now();
 
 }

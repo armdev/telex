@@ -1,0 +1,11 @@
+  
+  curl -X 'GET' \
+  'http://localhost:2028/api/v2/notifications?numConnections=100' \
+  -H 'accept: */*'
+
+
+
+http://localhost:2028/api/v2/notifications?numConnections=10
+
+https://projectreactor.io/docs/core/release/reference/#reactor.hotCold
+

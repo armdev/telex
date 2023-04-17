@@ -37,6 +37,17 @@ services:
       - '2027:2027'      
     networks:
       - telex_mongo-network
+      
+      
+  subscriber:
+    image: subscriber
+    build: ./subscriber
+    env_file: .env    
+    container_name: subscriber  
+    ports:
+      - '2028:2028'      
+    networks:
+      - telex_mongo-network
 
 
       

@@ -18,10 +18,10 @@ import org.springframework.web.client.RestTemplate;
 @ComponentScan(basePackages = {"io.project"})
 @EnableScheduling
 @EnableAsync
-public class RiverApplication {
+public class SubscriberApplication {
 
     public static void main(String[] args) {
-        final SpringApplication application = new SpringApplication(RiverApplication.class);
+        final SpringApplication application = new SpringApplication(SubscriberApplication.class);
         application.setBannerMode(Banner.Mode.CONSOLE);
         application.setWebApplicationType(WebApplicationType.REACTIVE);
         application.run(args);
@@ -38,5 +38,4 @@ public class RiverApplication {
     }
     
     //http://localhost:2027/api/v2/notifications?receiverId=4
-    //http://localhost:2027/api/v3/notifications?receiverId=4
 }

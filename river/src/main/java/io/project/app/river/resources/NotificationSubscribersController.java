@@ -4,7 +4,7 @@ import io.project.app.river.domains.Notification;
 import io.project.app.river.repositories.NotificationRepository;
 
 import java.time.Duration;
-import java.util.Iterator;
+
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import lombok.extern.slf4j.Slf4j;
@@ -16,12 +16,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import reactor.core.Scannable;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.ParallelFlux;
-import reactor.core.publisher.Sinks;
-import reactor.core.publisher.Sinks.Many;
-import reactor.util.concurrent.Queues;
 
 /**
  *
@@ -30,19 +26,17 @@ import reactor.util.concurrent.Queues;
 @RestController
 @RequestMapping("/api/v3")
 @Slf4j
-public class NotificatioSubscribersController {
+public class NotificationSubscribersController {
 
     private final NotificationRepository repository;
     private final ConcurrentMap<Long, Integer> subscriberCount;
 
-    private final Many<Integer> sink;
-
     @Autowired
-    public NotificatioSubscribersController(NotificationRepository repository) {
+    public NotificationSubscribersController(NotificationRepository repository) {
         this.repository = repository;
 
         this.subscriberCount = new ConcurrentHashMap<>();
-        this.sink = Sinks.many().multicast().onBackpressureBuffer(Queues.SMALL_BUFFER_SIZE, false);
+
     }
 
     /**
@@ -79,8 +73,8 @@ public class NotificatioSubscribersController {
         response.setStatusCode(HttpStatus.OK);
         response.getHeaders().setContentType(MediaType.TEXT_EVENT_STREAM);
         subscriberCount.compute(receiverId, (key, value) -> value == null ? 1 : value + 1);
-        sink.tryEmitNext(subscriberCount.get(receiverId));
 
+        log.info("ReceiverId " + receiverId);
         response.getHeaders().add("X-Subscriber-Count", Integer.toString(subscriberCount.get(receiverId)));
         return Flux.interval(Duration.ofSeconds(1))
                 .flatMap(i -> repository.findTop10ByStatusAndReceiverId("UNREAD", receiverId))
@@ -92,18 +86,18 @@ public class NotificatioSubscribersController {
                 .onBackpressureDrop()
                 .doFinally(signalType -> {
                     subscriberCount.compute(receiverId, (key, value) -> value == 1 ? null : value - 1);
-                    sink.tryEmitNext(subscriberCount.get(receiverId));
                 })
-                .repeat().parallel(500);
+                .repeat().parallel(1000);
     }
 
     @GetMapping(value = "/subscirbers")
-    public int count() {
-//        for (Long next : subscriberCount.keySet()) {
-//            log.info("Next is " + next);
-//            return next;
-//        }
-        return sink.currentSubscriberCount();
+    public Long count() {
+        for (Long next : subscriberCount.keySet()) {
+            log.info("Next is " + next);
+            return next;
+        }
+        /// return sink.currentSubscriberCount();
+        return 0L;
     }
 
 }

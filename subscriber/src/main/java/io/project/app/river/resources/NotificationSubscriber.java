@@ -29,7 +29,7 @@ public class NotificationSubscriber {
 
         Flux.range(1, numConnections)
                 .flatMap(i -> webClient.get()
-                .uri("/api/v3/notifications?receiverId=" + new Random().nextLong(1, 100))
+                .uri("/api/v3/notifications?receiverId=" + new Random().nextLong(1, 1000))
                 .accept(MediaType.TEXT_EVENT_STREAM)
                 .retrieve()
                 .bodyToFlux(String.class)
@@ -40,7 +40,5 @@ public class NotificationSubscriber {
                 .subscribe();
 
     }
-    
-  
 
 }

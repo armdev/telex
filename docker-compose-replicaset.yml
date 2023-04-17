@@ -36,6 +36,11 @@ services:
       - mongo-network
     ports:
       - 27018:27017
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 4G
     restart: always
     command: --setParameter internalQueryMaxBlockingSortMemoryUsageBytes=601514320
     entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "dbrs", "-wiredTigerCacheSizeGB=16" ]
@@ -49,6 +54,11 @@ services:
       - mongo-network
     ports:
       - 27019:27017
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 4G
     restart: always
     command: --setParameter internalQueryMaxBlockingSortMemoryUsageBytes=601514320
     entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "dbrs", "-wiredTigerCacheSizeGB=16" ]

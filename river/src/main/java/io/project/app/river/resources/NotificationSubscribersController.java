@@ -2,6 +2,7 @@ package io.project.app.river.resources;
 
 import io.project.app.river.domains.Notification;
 import io.project.app.river.repositories.NotificationRepository;
+import java.net.UnknownHostException;
 
 import java.time.Duration;
 
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import reactor.core.publisher.ParallelFlux;
 
 /**
@@ -70,24 +72,33 @@ public class NotificationSubscribersController {
      */
     @GetMapping(value = "/notifications", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public ParallelFlux<Notification> streamNotifications(@RequestParam Long receiverId, ServerHttpResponse response) {
+
         response.setStatusCode(HttpStatus.OK);
         response.getHeaders().setContentType(MediaType.TEXT_EVENT_STREAM);
         subscriberCount.compute(receiverId, (key, value) -> value == null ? 1 : value + 1);
 
         log.info("ReceiverId " + receiverId);
         response.getHeaders().add("X-Subscriber-Count", Integer.toString(subscriberCount.get(receiverId)));
-        return Flux.interval(Duration.ofSeconds(1))
+        return Flux.interval(Duration.ofSeconds(2))
                 .flatMap(i -> repository.findTop10ByStatusAndReceiverId("UNREAD", receiverId))
                 .flatMap(notification -> {
                     notification.setStatus("READ");
                     return repository.save(notification).thenReturn(notification);
                 })
-                .take(Duration.ofMinutes(5))
+                .take(Duration.ofMinutes(10))
                 .onBackpressureDrop()
+                .onErrorResume(e -> {
+                    if (e instanceof Exception) {
+                        log.warn("Error occured "+ e.getMessage());
+                    } else {
+                        log.warn("Error occured, other ");
+                    }
+                    return ParallelFlux.from();
+                })
                 .doFinally(signalType -> {
                     subscriberCount.compute(receiverId, (key, value) -> value == 1 ? null : value - 1);
                 })
-                .repeat().parallel(1000);
+                .repeat().parallel(250);
     }
 
     @GetMapping(value = "/subscirbers")

@@ -25,11 +25,13 @@ public class Notification implements Serializable {
 
     @Id
     private String id;
-    
+
+    @Indexed
     private Long receiverId;
-    
+
+    @Indexed
     private String status;
-    
+
     private String message;
 
     ////@Indexed(name = "ephemeralEventDate", expireAfterSeconds = 600)

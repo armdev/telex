@@ -75,8 +75,8 @@ public class ReactiveMongoConfig extends AbstractReactiveMongoConfiguration {
     public MongoClientSettings mongoClientSettings() {
         MongoClientSettings.Builder builder = MongoClientSettings.builder()
                 .applyConnectionString(new ConnectionString(mongoUri))
-                .readConcern(ReadConcern.MAJORITY)
-                .writeConcern(WriteConcern.MAJORITY);
+                .readConcern(ReadConcern.DEFAULT)
+                .writeConcern(WriteConcern.W1);
         return builder.build();
     }
 

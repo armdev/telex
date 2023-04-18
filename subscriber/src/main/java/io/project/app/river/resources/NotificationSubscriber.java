@@ -1,5 +1,7 @@
 package io.project.app.river.resources;
 
+import java.net.UnknownHostException;
+import java.time.Duration;
 import java.util.Random;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 /**
  *
@@ -29,12 +32,30 @@ public class NotificationSubscriber {
 
         Flux.range(1, numConnections)
                 .flatMap(i -> webClient.get()
-                .uri("/api/v3/notifications?receiverId=" + new Random().nextLong(1, 1000))
+                .uri("/api/v3/notifications?receiverId=" + new Random().nextLong(1, 500))
                 .accept(MediaType.TEXT_EVENT_STREAM)
                 .retrieve()
                 .bodyToFlux(String.class)
+                .take(Duration.ofMinutes(10))
+                .doFinally(signalType -> {
+                    log.info("Finally " + signalType.name());
+                })
+                .doOnCancel(() -> {
+                    log.error("Client canceled ");
+                })
+                .doOnComplete(() -> {
+                    log.info("Client completed ");
+                })
+                .onErrorResume(e -> {
+                    if (e instanceof Exception) {
+                        log.warn("Failed to get myStuff " +e.getMessage());
+                    } else {
+                        log.error("Failed to get myStuff, other");
+                    }
+                    return Mono.just("Encountered an exception");
+                })
                 .doOnNext(notification -> {
-                    System.out.println("Received notification: " + notification);
+                    log.info("Received notification: " + notification);
                 })
                 )
                 .subscribe();

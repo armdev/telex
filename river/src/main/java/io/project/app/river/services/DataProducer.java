@@ -28,7 +28,7 @@ public class DataProducer {
         this.repository = repository;
     }
 
-    @Scheduled(fixedDelay = 8000)
+    @Scheduled(fixedDelay = 5000)
     @Transactional
     public void scheduleFixedDelayTask() {
         Faker faker = new Faker();
@@ -37,10 +37,10 @@ public class DataProducer {
         long nextLong = 0L;
         String animal = "";
         List<Notification> notifications = new ArrayList<>();
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 10000; i++) {
             notification = new Notification();
             animal = faker.animal().name();
-            nextLong = new Random().nextLong(1, 1000);
+            nextLong = new Random().nextLong(1, 500);
             notification.setMessage(animal);
             notification.setStatus("UNREAD");
             notification.setReceiverId(nextLong);

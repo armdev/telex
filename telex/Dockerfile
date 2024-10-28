@@ -1,4 +1,4 @@
-FROM registry.gitlab.com/armdev/dockers/eclipse-temurin:22
+FROM azul/zulu-openjdk:22
 COPY target/telex.jar /opt/telex.jar
 ENTRYPOINT ["java", "-XX:+UseZGC", "-XX:MinHeapSize=512M", "-XX:InitialHeapSize=512M", "-XX:MaxHeapSize=1G", \
             "-XX:ParallelGCThreads=100", "-XX:ConcGCThreads=30", "--enable-preview", \

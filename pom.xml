@@ -10,8 +10,7 @@
         <module>telex</module>
         <module>driver</module>
         <module>river</module>
-        <module>subscriber</module>
-                     
+        <module>subscriber</module>                     
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

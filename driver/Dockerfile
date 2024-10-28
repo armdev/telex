@@ -1,5 +1,5 @@
-FROM registry.gitlab.com/armdev/dockers/eclipse-temurin:22
-
+#FROM registry.gitlab.com/armdev/dockers/eclipse-temurin:22
+FROM azul/zulu-openjdk:22
 COPY target/driver.jar /opt/driver.jar
 
 ENTRYPOINT ["java", "--add-opens", "java.base/java.time.zone=ALL-UNNAMED", "--add-opens", "java.base/java.time=ALL-UNNAMED", \

@@ -1,4 +1,4 @@
-FROM registry.gitlab.com/armdev/dockers/eclipse-temurin:22
+FROM azul/zulu-openjdk:22
 COPY target/river.jar /opt/river.jar
 ENTRYPOINT ["java", "--add-opens", "java.base/java.time.zone=ALL-UNNAMED", "--add-opens", "java.base/java.time=ALL-UNNAMED", \
             "--add-opens", "java.base/java.math=ALL-UNNAMED", "--add-opens", "java.base/java.lang=ALL-UNNAMED", \

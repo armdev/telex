@@ -5,8 +5,8 @@ use admin;
 
 db.createUser(
   {
-    user: "uber",
-    pwd: "uber123",
+    user: "citadelia",
+    pwd: "K5q0Xezdqc0J",
     roles: [ { role: "userAdminAnyDatabase", db: "admin" } ]
   }
 );

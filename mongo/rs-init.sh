@@ -1,10 +1,10 @@
 #!/bin/bash
 
-DELAY=25
+DELAY=15
 
-mongo <<EOF
+mongosh <<EOF
 var config = {
-    "_id": "dbrs",
+    "_id": "mongo_rs",
     "version": 1,
     "members": [
         {
@@ -16,12 +16,8 @@ var config = {
             "_id": 2,
             "host": "mongo2:27017",
             "priority": 1
-        },
-        {
-            "_id": 3,
-            "host": "mongo3:27017",
-            "priority": 1
         }
+       
     ]
 };
 rs.initiate(config, { force: true });
@@ -30,5 +26,5 @@ EOF
 echo "****** Waiting for ${DELAY} seconds for replicaset configuration to be applied ******"
 
 sleep $DELAY
-
-mongo < /scripts/init.js
+echo "****** Mongo 7  init ******"
+mongosh <  /scripts/init.js

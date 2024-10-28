@@ -38,7 +38,7 @@ public class GeohashResource {
             @RequestParam("geohash") String geohash) {
         GeoHash geo = GeoHash.fromGeohashString(geohash);
         WGS84Point point = new WGS84Point(latitude, longitude);
-      
+
         return geo.contains(point);
     }
 
@@ -52,7 +52,6 @@ public class GeohashResource {
     }
 
 }
-
 
 // Armenia 40.177200 44.503490 szpssdn3nk
 // Yerevan 40.177200 44.503490 szpssdn3nk

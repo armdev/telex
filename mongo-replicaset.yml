@@ -1,0 +1,51 @@
+services:
+  mongo1:
+    container_name: mongo1
+    image: mongo:7.0
+    volumes:
+      - ~/volumes/mongodata/replica_one:/data/db
+      - ./mongo/rs-init.sh:/scripts/rs-init.sh
+      - ./mongo/init.js:/scripts/init.js
+    ports:
+      - 127.0.0.1:27017:27017
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 5G
+    depends_on:
+      - mongo2     
+    links:
+      - mongo2   
+    restart: always
+    command: --setParameter internalQueryMaxBlockingSortMemoryUsageBytes=601514320
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "mongo_rs", "-wiredTigerCacheSizeGB=16" ]
+    
+    networks:
+      - platform
+
+  mongo2:
+    container_name: mongo2
+    image: mongo:7.0
+    volumes:
+      - ~/volumes/mongodata/replica_two:/data/db
+
+    ports:
+      - 127.0.0.1:27018:27017
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 4G
+    restart: always
+    command: --setParameter internalQueryMaxBlockingSortMemoryUsageBytes=601514320
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "mongo_rs", "-wiredTigerCacheSizeGB=16" ]
+    
+    networks:
+      - platform
+
+networks:
+  platform:
+    driver: bridge
+    ipam:
+      driver: default

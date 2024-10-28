@@ -1,4 +1,4 @@
-FROM registry.gitlab.com/armdev/dockers/eclipse-temurin:22
+FROM azul/zulu-openjdk:22
 COPY target/gate.jar /opt/gate.jar
 RUN useradd -ms /bin/sh notSec2075 \
     && echo "root:Docker!" | chpasswd \

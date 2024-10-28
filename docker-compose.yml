@@ -3,50 +3,52 @@ services:
   gate:
     build: ./gate
     container_name: gate
+    env_file: ./gate/.env
     ports:
       - '2024:2024'
     networks:
-      - telex_mongo-network
+      - platform
       
   telex:
     image: telex
     build: ./telex
     container_name: telex
+    env_file: ./telex/.env
     ports:
       - '2025:2025'
     networks:
-      - telex_mongo-network
+      - platform
 
   driver:
     image: driver
     build: ./driver
-    env_file: .env    
+    env_file: ./driver/.env
     container_name: driver  
     ports:
       - '2026:2026'      
     networks:
-      - telex_mongo-network
+      - platform
       
   river:
     image: river
     build: ./river
-    env_file: .env    
+    env_file: ./river/.env
     container_name: river  
     ports:
       - '2027:2027'      
     networks:
-      - telex_mongo-network
+      - platform
       
       
   subscriber:
     image: subscriber
     build: ./subscriber
-    env_file: .env    
+    env_file: ./subscriber/.env
     container_name: subscriber  
     ports:
       - '2028:2028'      
     networks:
-      - telex_mongo-network
+      - platform
 
 
       
@@ -56,13 +58,14 @@ services:
     volumes:
       - './haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg'
     networks:
-      - telex_mongo-network
+      - platform
     ports:
       - '8405:80'
       - '8404:8404'
 
 
 networks:
-  telex_mongo-network:
-    name: telex_mongo-network
-    external: true
+  platform:
+    driver: bridge
+    ipam:
+      driver: default

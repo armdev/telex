@@ -2,7 +2,6 @@ package io.project.app.river.resources;
 
 import io.project.app.river.domains.Notification;
 import io.project.app.river.repositories.NotificationRepository;
-import java.net.UnknownHostException;
 
 import java.time.Duration;
 
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 import reactor.core.publisher.ParallelFlux;
 
 /**

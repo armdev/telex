@@ -70,12 +70,10 @@ public class NotificationSubscribersController {
      */
     @GetMapping(value = "/notifications", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public ParallelFlux<Notification> streamNotifications(@RequestParam Long receiverId, ServerHttpResponse response) {
-
         response.setStatusCode(HttpStatus.OK);
         response.getHeaders().setContentType(MediaType.TEXT_EVENT_STREAM);
         subscriberCount.compute(receiverId, (key, value) -> value == null ? 1 : value + 1);
-
-        log.info("ReceiverId " + receiverId);
+        log.info("ReceiverId " + receiverId + " Subscriber count " +subscriberCount.keySet());
         response.getHeaders().add("X-Subscriber-Count", Integer.toString(subscriberCount.get(receiverId)));
         return Flux.interval(Duration.ofSeconds(2))
                 .flatMap(i -> repository.findTop10ByStatusAndReceiverId("UNREAD", receiverId))
@@ -96,7 +94,7 @@ public class NotificationSubscribersController {
                 .doFinally(signalType -> {
                     subscriberCount.compute(receiverId, (key, value) -> value == 1 ? null : value - 1);
                 })
-                .repeat().parallel(250);
+                .repeat().parallel(500);
     }
 
     @GetMapping(value = "/subscirbers")

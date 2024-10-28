@@ -73,7 +73,7 @@ public class NotificationSubscribersController {
         response.setStatusCode(HttpStatus.OK);
         response.getHeaders().setContentType(MediaType.TEXT_EVENT_STREAM);
         subscriberCount.compute(receiverId, (key, value) -> value == null ? 1 : value + 1);
-        log.info("ReceiverId " + receiverId + " Subscriber count " +subscriberCount.keySet());
+        log.info("ReceiverId " + receiverId + " Subscriber count " + subscriberCount.keySet());
         response.getHeaders().add("X-Subscriber-Count", Integer.toString(subscriberCount.get(receiverId)));
         return Flux.interval(Duration.ofSeconds(2))
                 .flatMap(i -> repository.findTop10ByStatusAndReceiverId("UNREAD", receiverId))
@@ -85,7 +85,7 @@ public class NotificationSubscribersController {
                 .onBackpressureDrop()
                 .onErrorResume(e -> {
                     if (e instanceof Exception) {
-                        log.warn("Error occured "+ e.getMessage());
+                        log.warn("Error occured " + e.getMessage());
                     } else {
                         log.warn("Error occured, other ");
                     }
@@ -98,13 +98,10 @@ public class NotificationSubscribersController {
     }
 
     @GetMapping(value = "/subscirbers")
-    public Long count() {
-        for (Long next : subscriberCount.keySet()) {
-            log.info("Next is " + next);
-            return next;
-        }
+    public Integer count() {
         /// return sink.currentSubscriberCount();
-        return 0L;
+        return subscriberCount.size();
+
     }
 
 }

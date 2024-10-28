@@ -13,4 +13,4 @@ river microservice, SSE
 http://localhost:2027/api/v2/notifications?receiverId=101
 
 //subscriber microservice, subscribe define number of connections
-http://localhost:2028/api/v2/notifications?numConnections=2
+http://localhost:2028/api/v2/notifications?numConnections=205

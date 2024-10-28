@@ -1,8 +1,5 @@
-FROM eclipse-temurin:19-alpine
-#FROM amazoncorretto:20.0.0
+FROM registry.gitlab.com/armdev/dockers/eclipse-temurin:22
 COPY target/telex.jar /opt/telex.jar
-RUN addgroup -S appgroup && adduser -S appuser -G appgroup
-USER appuser
 ENTRYPOINT ["java", "-XX:+UseZGC", "-XX:MinHeapSize=512M", "-XX:InitialHeapSize=512M", "-XX:MaxHeapSize=1G", \
             "-XX:ParallelGCThreads=100", "-XX:ConcGCThreads=30", "--enable-preview", \
             "-XX:SoftRefLRUPolicyMSPerMB=0","-XX:ZCollectionInterval=30", "-XX:ZFragmentationLimit=10", \
@@ -13,6 +10,3 @@ ENTRYPOINT ["java", "-XX:+UseZGC", "-XX:MinHeapSize=512M", "-XX:InitialHeapSize=
             "-XX:+UnlockExperimentalVMOptions", "-XshowSettings:vm" ,"-jar","/opt/telex.jar"]
 
 EXPOSE 2025
-
-
-

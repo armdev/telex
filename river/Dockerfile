@@ -1,8 +1,5 @@
-FROM eclipse-temurin:19-alpine
-#FROM amazoncorretto:20.0.0
+FROM registry.gitlab.com/armdev/dockers/eclipse-temurin:22
 COPY target/river.jar /opt/river.jar
-RUN addgroup -S appgroup && adduser -S appuser -G appgroup
-USER appuser
 ENTRYPOINT ["java", "--add-opens", "java.base/java.time.zone=ALL-UNNAMED", "--add-opens", "java.base/java.time=ALL-UNNAMED", \
             "--add-opens", "java.base/java.math=ALL-UNNAMED", "--add-opens", "java.base/java.lang=ALL-UNNAMED", \
              "--add-opens", "java.management/sun.management=ALL-UNNAMED", \

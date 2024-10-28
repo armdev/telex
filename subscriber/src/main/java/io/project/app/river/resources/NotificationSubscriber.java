@@ -1,6 +1,5 @@
 package io.project.app.river.resources;
 
-import java.net.UnknownHostException;
 import java.time.Duration;
 import java.util.Random;
 import lombok.extern.slf4j.Slf4j;
@@ -24,15 +23,15 @@ import reactor.core.publisher.Mono;
 public class NotificationSubscriber {
 
     @GetMapping(value = "/notifications", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public void subscibe(@RequestParam int numConnections, ServerHttpResponse response) {
+    public Flux<String> subscribe(@RequestParam int numConnections) {
 
         WebClient webClient = WebClient.builder()
                 .baseUrl("http://river:2027")
                 .build();
 
-        Flux.range(1, numConnections)
+        return Flux.range(1, numConnections)
                 .flatMap(i -> webClient.get()
-                .uri("/api/v3/notifications?receiverId=" + new Random().nextLong(1, 500))
+                .uri("/api/v3/notifications?receiverId=" + new Random().nextLong(1, 100))
                 .accept(MediaType.TEXT_EVENT_STREAM)
                 .retrieve()
                 .bodyToFlux(String.class)
@@ -48,7 +47,7 @@ public class NotificationSubscriber {
                 })
                 .onErrorResume(e -> {
                     if (e instanceof Exception) {
-                        log.warn("Failed to get myStuff " +e.getMessage());
+                        log.warn("Failed to get myStuff " + e.getMessage());
                     } else {
                         log.error("Failed to get myStuff, other");
                     }
@@ -57,9 +56,7 @@ public class NotificationSubscriber {
                 .doOnNext(notification -> {
                     log.info("Received notification: " + notification);
                 })
-                )
-                .subscribe();
-
+                );
     }
 
 }

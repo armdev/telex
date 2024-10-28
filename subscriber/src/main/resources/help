@@ -3,9 +3,8 @@
   'http://localhost:2028/api/v2/notifications?numConnections=100' \
   -H 'accept: */*'
 
-
-
-http://localhost:2028/api/v2/notifications?numConnections=10
-
 https://projectreactor.io/docs/core/release/reference/#reactor.hotCold
 
+http://localhost:2027/api/v2/notifications?receiverId=85
+
+http://localhost:2028/api/v2/notifications?numConnections=2

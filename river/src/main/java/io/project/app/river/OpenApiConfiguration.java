@@ -11,7 +11,7 @@ public class OpenApiConfiguration {
     @Bean
     public GroupedOpenApi publicApi() {
         return GroupedOpenApi.builder()
-                .group("publicapi")
+                .group("river")
                 .packagesToScan("io.project")
                 .pathsToMatch("/api/**")
                 .build();

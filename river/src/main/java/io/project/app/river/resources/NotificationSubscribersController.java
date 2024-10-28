@@ -24,7 +24,7 @@ import reactor.core.publisher.ParallelFlux;
  * @author armena
  */
 @RestController
-@RequestMapping("/api/v3")
+@RequestMapping("/api/v2")
 @Slf4j
 public class NotificationSubscribersController {
 

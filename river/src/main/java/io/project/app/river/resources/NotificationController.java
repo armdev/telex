@@ -50,7 +50,7 @@ public class NotificationController {
      * 'UNREAD', and once a notification is received, its status will be updated
      * to 'READ' in the database.
      */
-    @GetMapping(value = "/notifications", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    @GetMapping(value = "/notifications/public", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<Notification> streamNotifications(@RequestParam Long receiverId, ServerHttpResponse response) {
         response.setStatusCode(HttpStatus.OK);
         response.getHeaders().setContentType(MediaType.TEXT_EVENT_STREAM);

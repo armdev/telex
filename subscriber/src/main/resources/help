@@ -5,6 +5,12 @@
 
 https://projectreactor.io/docs/core/release/reference/#reactor.hotCold
 
-http://localhost:2027/api/v2/notifications?receiverId=85
 
+Public streaming, SSE
+http://localhost:2027/api/v2/notifications/public?receiverId=85
+
+river microservice, SSE
+http://localhost:2027/api/v2/notifications?receiverId=101
+
+//subscriber microservice, subscribe define number of connections
 http://localhost:2028/api/v2/notifications?numConnections=2

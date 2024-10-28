@@ -1,10 +1,6 @@
-Here’s an enhanced README with a more organized structure, additional explanations, and code formatting for readability:
-
----
-
 # Telex
 
-**Telex** is an international telegraphy system designed for sending and receiving printed messages over the public telecommunications network. This application simulates the core functionalities of the classic Telex system, integrating message transmission, geohashing capabilities, and location-based services.
+**Telex** is an international telegraphy-inspired system designed to support the transmission and receipt of printed messages over the public telecommunications network. This application simulates core Telex functionalities, including message transmission, geohashing, and location-based services. Additionally, it provides public and private real-time notification streaming through Server-Sent Events (SSE).
 
 ## Table of Contents
 - [Installation](#installation)
@@ -14,6 +10,10 @@ Here’s an enhanced README with a more organized structure, additional explanat
     - [Retrieve Geohash from Coordinates](#retrieve-geohash-from-coordinates)
     - [Retrieve Coordinates from Geohash](#retrieve-coordinates-from-geohash)
     - [Validate Coordinates with Geohash](#validate-coordinates-with-geohash)
+  - [Real-Time Streaming Services](#real-time-streaming-services)
+    - [Public Notification Streaming](#public-notification-streaming)
+    - [River Microservice Notifications](#river-microservice-notifications)
+    - [Subscriber Microservice](#subscriber-microservice)
 - [HAProxy Monitoring](#haproxy-monitoring)
 
 ---
@@ -80,7 +80,7 @@ GET http://localhost:8405/telex/api/geohash?lat=40.177200&lon=44.503490
 
 #### Retrieve Coordinates from Geohash
 
-To decode a geohash back to its latitude and longitude, use:
+To decode a geohash back to its latitude and longitude:
 
 ```plaintext
 GET http://localhost:8405/telex/api/location?geohash=szpssdn3nk
@@ -96,6 +96,36 @@ GET http://localhost:8405/telex/api/geohash/check?lat=40.177200&lon=44.503490&ge
 
 ---
 
+### Real-Time Streaming Services
+
+Telex provides real-time notification streaming services via Server-Sent Events (SSE), enabling both public and targeted notifications.
+
+#### Public Notification Streaming
+
+To receive public notifications, connect to the following endpoint with the desired `receiverId`:
+
+```plaintext
+GET http://localhost:2027/api/v2/notifications/public?receiverId=85
+```
+
+#### River Microservice Notifications
+
+For river microservice notifications via SSE, connect to:
+
+```plaintext
+GET http://localhost:2027/api/v2/notifications?receiverId=101
+```
+
+#### Subscriber Microservice
+
+To establish multiple concurrent SSE connections for notifications, use the subscriber microservice and define the number of desired connections with the `numConnections` parameter:
+
+```plaintext
+GET http://localhost:2028/api/v2/notifications?numConnections=2
+```
+
+---
+
 ## HAProxy Monitoring
 
 This application uses **HAProxy** for efficient load balancing. To view the HAProxy statistics dashboard, open the following URL in your browser:
@@ -106,4 +136,4 @@ http://127.0.0.1:8404/
 
 ---
 
-This README now provides a more user-friendly guide to installing, running, and using the Telex application, as well as enhanced documentation on endpoints and their usage examples.
+This enhanced README provides a more detailed and structured overview of Telex’s functionalities, from setup and geohashing to real-time streaming, making it easier to understand and use each feature.
